@@ -1,0 +1,18 @@
+<?php
+	#Plugin page titles
+	$s_plugin_workload_title = 'Workload Metrics';
+	$s_plugin_workload_description = 'Plugin based on selected numeric custom fields to compute products/projects workload.';
+	$s_plugin_workload_menu = 'Workload';
+	$s_plugin_workload_config = 'Configuration';
+	
+	#Plugin configuration
+	$s_plugin_workload_management_threshold = 'Management threshold';
+	$s_plugin_workload_est_var = 'Custom field for Estimated Workload';
+	$s_plugin_workload_done_var = 'Custom field for Done Workload';
+	$s_plugin_workload_custom_field_found_none = 'No numeric custom field found';
+	
+	#Plugin workload page labels
+	$s_plugin_workload_over = 'Current Overload';
+	$s_plugin_workload_remaining_overall = 'Overall Remaining Workload';
+	$s_plugin_workload_remaining = 'Remaining Workload';
+?>

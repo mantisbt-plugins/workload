@@ -1,0 +1,68 @@
+<?php
+	require_once('api.php');
+
+	auth_reauthenticate();
+	access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
+	
+	html_page_top( lang_get( 'plugin_workload_config' ) );
+	
+	print_manage_menu();
+	
+	echo '<br />';
+	echo '<form action="'.plugin_page( 'config_edit' ).'" method="post">';
+	# Start security field
+	echo form_security_field( 'plugin_workload_config_edit' );
+	echo '<table class="width100" align="center" cellspacing="1">';
+	echo '<tr><td class="form-title"colspan="2">'.lang_get('plugin_workload_title').': '.lang_get('plugin_workload_config').'</td></tr>';
+	# workload_est_var config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_est_var' ).'</td>';
+	$t_custom_fields = get_numeric_custom_fied_ids();
+	if(count($t_custom_fields) > 0) {	
+		echo '<td><select name="workload_est_var_idx">';	
+		foreach( $t_custom_fields as $t_field_id )
+		{
+			$t_desc = custom_field_get_definition( $t_field_id );
+			echo '<option value="'.$t_field_id.'"';
+			check_selected( plugin_config_get('workload_est_var_idx'), $t_field_id ); 
+			echo '>'.string_display($t_desc['name']).'</option>';
+		}		
+		echo '</select></td>';
+	}
+	else {
+		echo '<td>',lang_get('plugin_workload_custom_field_found_none'),'</td>';
+	}
+	echo '<tr>';
+	# workload_done_var config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_done_var' ).'</td>';
+	if(count($t_custom_fields) > 0) {	
+		echo '<td><select name="workload_done_var_idx">';	
+		foreach( $t_custom_fields as $t_field_id ) {
+			$t_desc = custom_field_get_definition( $t_field_id );
+			echo '<option value="'.$t_field_id.'"';
+			check_selected( plugin_config_get('workload_done_var_idx'), $t_field_id ); 
+			echo '>'.string_display($t_desc['name']).'</option>';
+		}		
+		echo '</select></td>';
+	}
+	else {
+		echo '<td>',lang_get('plugin_workload_custom_field_found_none'),'</td>';
+	}
+	echo '<tr>';	
+	# manage_threshold config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_management_threshold' ).'</td>';
+	echo '<td><select name="manage_threshold">';
+	echo print_enum_string_option_list( 'access_levels', plugin_config_get('manage_threshold'));
+	echo '</select></td>';
+	echo '</tr>';
+	# submit button
+	echo '<tr>';
+	echo '<td class="center" colspan="2"><input type="submit" value="'.lang_get('change_configuration').'"/></td>';
+	echo '</tr>';	
+	echo '</table>';
+	echo '</form>';
+	
+	html_page_bottom();
+?>
