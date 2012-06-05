@@ -46,7 +46,8 @@
 		$t_time_est_id = 0;
 		$t_time_done_id = 0;
 		
-		$t_custom_fields = get_numeric_custom_fied_ids();
+		$t_types = array(CUSTOM_FIELD_TYPE_NUMERIC);		
+		$t_custom_fields = get_custom_fied_ids($t_types);
 		if(count($t_custom_fields) > 0) {		
 			foreach ($t_custom_fields as $t_field_id) {
 				if($t_field_id == plugin_config_get('workload_est_var_idx')) {
@@ -126,7 +127,7 @@
 		if(is_numeric($t_delta) && ($t_delta > 0)) {		
 			echo '<td> +', $t_delta, '</td>';
 		} else {
-			echo '<td>', $t_delta, $p_workload, '</td>';
+			echo '<td>', $t_delta, '</td>';
 		}
 		echo '</tr>';
 	} /* End of print_issue() */
