@@ -17,7 +17,8 @@
 	# workload_est_var config
 	echo '<tr '.helper_alternate_class().'>';
 	echo '<td class="category">'.lang_get( 'plugin_workload_est_var' ).'</td>';
-	$t_custom_fields = get_numeric_custom_fied_ids();
+	$t_types = array(CUSTOM_FIELD_TYPE_NUMERIC);
+	$t_custom_fields = get_custom_fied_ids($t_types);
 	if(count($t_custom_fields) > 0) {	
 		echo '<td><select name="workload_est_var_idx">';	
 		foreach( $t_custom_fields as $t_field_id )
@@ -32,7 +33,7 @@
 	else {
 		echo '<td>',lang_get('plugin_workload_custom_field_found_none'),'</td>';
 	}
-	echo '<tr>';
+	echo '</tr>';
 	# workload_done_var config
 	echo '<tr '.helper_alternate_class().'>';
 	echo '<td class="category">'.lang_get( 'plugin_workload_done_var' ).'</td>';
@@ -49,7 +50,7 @@
 	else {
 		echo '<td>',lang_get('plugin_workload_custom_field_found_none'),'</td>';
 	}
-	echo '<tr>';	
+	echo '</tr>';	
 	# manage_threshold config
 	echo '<tr '.helper_alternate_class().'>';
 	echo '<td class="category">'.lang_get( 'plugin_workload_management_threshold' ).'</td>';
