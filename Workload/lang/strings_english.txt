@@ -15,4 +15,7 @@
 	$s_plugin_workload_over = 'Current Overload';
 	$s_plugin_workload_remaining_overall = 'Overall Remaining Workload';
 	$s_plugin_workload_remaining = 'Remaining Workload';
+	$s_plugin_workload_none = 'None';
+	$s_plugin_workload_not_available = 'Not available';
+	$s_plugin_workload_not_found = 'Not found';
 ?>
