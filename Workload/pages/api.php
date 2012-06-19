@@ -3,7 +3,6 @@
 	
 	define(PLUGIN_WORKLOAD_PRINT_ISSUE_TIME_DEFAULT, '0');
 	define(PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT, '-1');
-	define(PLUGIN_WORKLOAD_PRINT_ISSUE_OVERLOAD_DEFAULT, '-1');
 	
 	if(!function_exists('get_custom_fied_ids'))
 	{
