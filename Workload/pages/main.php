@@ -2,7 +2,6 @@
 	require_once('api.php');
 	
 	require_once('core.php');
-	require_once('bug_api.php');
 
  	/**
 	 * Print issue begin
@@ -11,20 +10,21 @@
 	 * @author rcasteran
 	 */
 	function print_issue_begin() {
-		global $g_workload, $g_overload;
+		global $g_time_est, $g_time_done;
 
-		$g_workload = PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT;
-		$g_overload = PLUGIN_WORKLOAD_PRINT_ISSUE_OVERLOAD_DEFAULT;
+		$g_time_est = PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT;
+		$g_time_done = PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT;
 		
 		echo '<table class="width100" cellspacing="1">';
 		echo '<tbody>';
 		echo '<tr>';
-		echo '<td class="category" width="20%">', lang_get('email_project'), '</td>';
+		echo '<td class="category" width="15%">', lang_get('email_project'), '</td>';
 		echo '<td class="category" width="15%">', lang_get('product_version'), '</td>';
-		echo '<td class="category" width="15%">', lang_get('id'), '</td>';
-		echo '<td class="category" width="15%">', lang_get('assigned_to'), '</td>';
-		echo '<td class="category" width="15%">', lang_get('status'), '</td>';		
-		echo '<td class="category" width="20%">', lang_get('plugin_workload_remaining'), '</td>';
+		echo '<td class="category" width="10%">', lang_get('id'), '</td>';
+		echo '<td class="category" width="30%">', lang_get('summary'), '</td>';
+		echo '<td class="category" width="10%">', lang_get('assigned_to'), '</td>';
+		echo '<td class="category" width="10%">', lang_get('status'), '</td>';		
+		echo '<td class="category" width="10%">', lang_get('plugin_workload_remaining'), '</td>';
 		echo '</tr>';
 	} /* End of print_issue_begin() */
 	
@@ -35,7 +35,7 @@
 	 * @author rcasteran
 	 */
 	function print_issue( $p_version_row, $p_issue_id, $p_issue_level = 0 ) {
-		global $g_workload, $g_overload;
+		global $g_time_est, $g_time_done;
 		
 		$t_project_id   = $p_version_row['project_id'];
 		$t_version_id   = $p_version_row['id'];
@@ -83,25 +83,23 @@
 				$t_delta = $t_time_est - $t_time_done;
 				
 				if($t_delta >= 0) {
-					if($g_workload == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
-						$g_workload = $t_delta;						
+					if($g_time_done == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
+						$g_time_done = $t_time_done;
+						$g_time_est = $t_time_est;						
 					} else {
-						$g_workload += $t_delta;
+						$g_time_done += $t_time_done;
+						$g_time_est += $t_time_est;												
 					}
 				} else {
-					if($g_overload == PLUGIN_WORKLOAD_PRINT_ISSUE_OVERLOAD_DEFAULT) {
-						$g_overload = $t_delta;					
-					} else {
-						$g_overload += $t_delta;					
-					}
+					$t_delta = lang_get('plugin_workload_none');
 				}
 			} else {
-				$t_delta = 'N/A';
+				$t_delta = lang_get('plugin_workload_not_available');
 			}
 		}
 		else 
 		{
-			$t_delta = 'Not found';
+			$t_delta = lang_get('plugin_workload_not_found');
 		}
 		
 		#Retrieve bug properties
@@ -116,6 +114,7 @@
 		echo '<td>', '<a href="'.plugin_page('main', false).'&project_id='.$t_project_id.'">'.string_display_line($t_project_name).'</a>', '</td>';
 		echo '<td>', '<a href="'.plugin_page('main', false).'&version_id='.$t_version_id.'">'.string_display_line($t_version_name).'</a>', '</td>';
 		echo '<td>', string_get_bug_view_link( $p_issue_id ), '</td>';
+		echo '<td>', string_display_line_links( $t_bug->summary ), '</td>';
 		
 		if( $t_bug->handler_id != 0 ) {
 			echo '<td>', '<a href="'.plugin_page('main', false).'&handler_id='.$t_bug->handler_id.'">'.string_display_line(user_get_name($t_bug->handler_id)).'</a>', '</td>';
@@ -125,7 +124,7 @@
 			
 		echo '<td bgcolor="', get_status_color( $t_bug->status ), '">', $t_status[$t_bug->status], '</td>';
 		if(is_numeric($t_delta) && ($t_delta > 0)) {		
-			echo '<td> +', $t_delta, '</td>';
+			echo '<td> +', $t_delta, ' (', round((1 - $t_time_done / $t_time_est) * 100), '%)</td>';
 		} else {
 			echo '<td>', $t_delta, '</td>';
 		}
@@ -139,22 +138,35 @@
 	 * @author rcasteran
 	 */
 	function print_issue_end() {
-		global $g_workload, $g_overload;
+		global $g_time_est, $g_time_done;
+		
+		$t_workload = PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT;
 		
 		echo '<tr ', helper_alternate_class(), '>';
-		echo '<td class="category" colspan="5">'.lang_get('plugin_workload_remaining_overall').'</td>';
-		if($g_workload == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
-			echo '<td>N/A</td>';
+		echo '<td class="category" colspan="6">'.lang_get('plugin_workload_remaining_overall').'</td>';
+		if($g_time_est == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
+			echo '<td>'.lang_get('plugin_workload_not_available').'</td>';
+		} else if(is_numeric($g_time_est) && ($g_time_est > 0)) {
+			$t_workload = $g_time_est - $g_time_done;
+			
+			if($t_workload > 0) {		
+				echo '<td> +', $t_workload, ' (', round((1 - $g_time_done / $g_time_est) * 100), '%)</td>';
+			} else {
+				echo '<td>', $t_workload, '</td>';
+			}
 		} else {
-			echo '<td>'.$g_workload.'</td>';		
+			echo '<td>'.lang_get('plugin_workload_none').'</td>';
 		}
+		
 		echo '</tr>';
 		echo '<tr ', helper_alternate_class(), '>';
-		echo '<td class="category" colspan="5">'.lang_get('plugin_workload_over').'</td>';
-		if($g_overload == PLUGIN_WORKLOAD_PRINT_ISSUE_OVERLOAD_DEFAULT) {
-			echo '<td>None</td>';
+		echo '<td class="category" colspan="6">'.lang_get('plugin_workload_over').'</td>';
+		if($t_workload == PLUGIN_WORKLOAD_PRINT_ISSUE_OVERLOAD_DEFAULT) {
+			echo '<td>'.lang_get('plugin_workload_not_available').'</td>';
+		} else if($t_workload < 0) {		
+			echo '<td> +', -$t_workload, '</td>';
 		} else {
-			echo '<td>'.$g_overload.'</td>';		
+			echo '<td>'.lang_get('plugin_workload_none').'</td>';
 		}
 		echo '</tr>';
 
