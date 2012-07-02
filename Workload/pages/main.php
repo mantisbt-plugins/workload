@@ -82,16 +82,12 @@
 			if($t_time_est != PLUGIN_WORKLOAD_PRINT_ISSUE_TIME_DEFAULT) {
 				$t_delta = $t_time_est - $t_time_done;
 				
-				if($t_delta >= 0) {
-					if($g_time_done == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
-						$g_time_done = $t_time_done;
-						$g_time_est = $t_time_est;						
-					} else {
-						$g_time_done += $t_time_done;
-						$g_time_est += $t_time_est;												
-					}
+				if($g_time_done == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
+					$g_time_done = $t_time_done;
+					$g_time_est = $t_time_est;						
 				} else {
-					$t_delta = lang_get('plugin_workload_none');
+					$g_time_done += $t_time_done;
+					$g_time_est += $t_time_est;												
 				}
 			} else {
 				$t_delta = lang_get('plugin_workload_not_available');
@@ -123,8 +119,13 @@
 		}
 			
 		echo '<td bgcolor="', get_status_color( $t_bug->status ), '">', $t_status[$t_bug->status], '</td>';
-		if(is_numeric($t_delta) && ($t_delta > 0)) {		
-			echo '<td> +', $t_delta, ' (', round((1 - $t_time_done / $t_time_est) * 100), '%)</td>';
+		if(is_numeric($t_delta)) {
+			if($t_delta > 0)
+			{		
+				echo '<td> +', $t_delta, ' (', round((1 - $t_time_done / $t_time_est) * 100), '%)</td>';
+			} else {				
+				echo '<td>', $t_delta, ' (', round(($t_time_done / $t_time_est - 1) * 100), '%)</td>';				
+			}
 		} else {
 			echo '<td>', $t_delta, '</td>';
 		}
@@ -152,24 +153,12 @@
 			if($t_workload > 0) {		
 				echo '<td> +', $t_workload, ' (', round((1 - $g_time_done / $g_time_est) * 100), '%)</td>';
 			} else {
-				echo '<td>', $t_workload, '</td>';
+				echo '<td>', $t_workload, ' (', round(($g_time_done / $g_time_est - 1) * 100), '%)</td>';
 			}
 		} else {
 			echo '<td>'.lang_get('plugin_workload_none').'</td>';
 		}
 		
-		echo '</tr>';
-		echo '<tr ', helper_alternate_class(), '>';
-		echo '<td class="category" colspan="6">'.lang_get('plugin_workload_over').'</td>';
-		if($t_workload == PLUGIN_WORKLOAD_PRINT_ISSUE_OVERLOAD_DEFAULT) {
-			echo '<td>'.lang_get('plugin_workload_not_available').'</td>';
-		} else if($t_workload < 0) {		
-			echo '<td> +', -$t_workload, '</td>';
-		} else {
-			echo '<td>'.lang_get('plugin_workload_none').'</td>';
-		}
-		echo '</tr>';
-
 		echo '</tbody>';
 		echo '</table>';
 	} /* End of print_issue_end() */	

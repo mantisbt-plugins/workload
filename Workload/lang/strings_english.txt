@@ -12,7 +12,6 @@
 	$s_plugin_workload_custom_field_found_none = 'No numeric custom field found';
 	
 	#Plugin workload page labels
-	$s_plugin_workload_over = 'Current Overload';
 	$s_plugin_workload_remaining_overall = 'Overall Remaining Workload';
 	$s_plugin_workload_remaining = 'Remaining Workload';
 	$s_plugin_workload_none = 'None';
