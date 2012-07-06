@@ -11,10 +11,17 @@
 	$s_plugin_workload_done_var = 'Custom field for Done Workload';
 	$s_plugin_workload_custom_field_found_none = 'No numeric custom field found';
 	
-	#Plugin workload page labels
+	#Plugin menu
+	$s_plugin_workload_menu_main = 'Current';
+	$s_plugin_workload_menu_changelog = 'Change Log';
+	
+	#Plugin main page labels
 	$s_plugin_workload_remaining_overall = 'Overall Remaining Workload';
 	$s_plugin_workload_remaining = 'Remaining Workload';
 	$s_plugin_workload_none = 'None';
 	$s_plugin_workload_not_available = 'Not available';
 	$s_plugin_workload_not_found = 'Not found';
+
+	#Plugin changelog page labels
+	$s_plugin_workload_overall = 'Overall Workload';
 ?>
