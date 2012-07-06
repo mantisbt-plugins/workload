@@ -120,11 +120,12 @@
 			
 		echo '<td bgcolor="', get_status_color( $t_bug->status ), '">', $t_status[$t_bug->status], '</td>';
 		if(is_numeric($t_delta)) {
-			if($t_delta > 0)
-			{		
+			if($t_delta > 0) {		
 				echo '<td> +', $t_delta, ' (', round((1 - $t_time_done / $t_time_est) * 100), '%)</td>';
-			} else {				
+			} else if($t_time_est > 0) {				
 				echo '<td>', $t_delta, ' (', round(($t_time_done / $t_time_est - 1) * 100), '%)</td>';				
+			} else {
+				echo '<td>', $t_delta, '</td>';
 			}
 		} else {
 			echo '<td>', $t_delta, '</td>';
@@ -152,8 +153,10 @@
 			
 			if($t_workload > 0) {		
 				echo '<td> +', $t_workload, ' (', round((1 - $g_time_done / $g_time_est) * 100), '%)</td>';
-			} else {
+			} else if($g_time_est > 0) {
 				echo '<td>', $t_workload, ' (', round(($g_time_done / $g_time_est - 1) * 100), '%)</td>';
+			} else {
+				echo '<td>', $t_workload, '</td>';
 			}
 		} else {
 			echo '<td>'.lang_get('plugin_workload_none').'</td>';
@@ -230,6 +233,8 @@
 	}
 
 	html_page_top( lang_get( 'plugin_workload_menu' ) );
+
+	print_workload_menu('main.php', $f_project_id, $f_version_id, $f_handler_id);
 
 	$t_project_index = 0;
 	echo '<br/>';
