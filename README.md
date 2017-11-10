@@ -4,13 +4,13 @@ Manstis BugTracker (http://www.mantisbt.org/) Plugin based on selected numeric c
 ## Requirements
 1. Plugin for 1.2.10 and above
 2. Allow user to fill estimated / done workload :
-(2.1) According to bug status
-(2.2) In different numeric format (minutes, hours, days...)
-(2.3) Directly in bug summary or in bug update form (no extra view)
+	1. According to bug status
+	2. In different numeric format (minutes, hours, days...)
+	3. Directly in bug summary or in bug update form (no extra view)
 3. Build workload / overload report per :
-(3.1) Project
-(3.2) Version
-(3.3) Issue handler
+	1. Project
+	2. Version
+	3. Issue handler
 4. Follow changes in bug history
 
 ## Technical solution
