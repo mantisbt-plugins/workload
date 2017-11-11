@@ -55,6 +55,7 @@
 				} else if($t_field_id == plugin_config_get('workload_done_var_idx')) {
 					$t_time_done_id = $t_field_id;
 				}
+				/* Else do nothing */				
 			}	
 		}
 		/* Else do nothing */
@@ -147,6 +148,8 @@
 		echo '<tr ', helper_alternate_class(), '>';
 		echo '<td class="category" colspan="6">'.lang_get('plugin_workload_remaining_overall').'</td>';
 		if($g_time_est == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
+			log_workload_event('Main - overall remaining workload not available');			
+
 			echo '<td>'.lang_get('plugin_workload_not_available').'</td>';
 		} else if(is_numeric($g_time_est) && ($g_time_est > 0)) {
 			$t_workload = $g_time_est - $g_time_done;
@@ -158,16 +161,23 @@
 			} else {
 				echo '<td>', $t_workload, '</td>';
 			}
+			
+			log_workload_event('Main - overall remaining workload: '.$t_workload);
+			
 		} else {
+			log_workload_event('Main -  no computed overall remaining workload');			
+			
 			echo '<td>'.lang_get('plugin_workload_none').'</td>';
 		}
 		
 		echo '</tbody>';
-		echo '</table>';
+		echo '</table>';	
 	} /* End of print_issue_end() */	
 
+	# Retrieve current user identifier
 	$t_user_id = auth_get_current_user_id();
 
+	# Retrieve project identifier	
 	$f_project = gpc_get_string( 'project', '' );
 	if ( is_blank( $f_project ) ) {
 		$f_project_id = gpc_get_int( 'project_id', -1 );
@@ -178,9 +188,9 @@
 			trigger_error( ERROR_PROJECT_NOT_FOUND, ERROR );
 		}
 	}
-	
-	$f_version = gpc_get_string( 'version', '' );
 
+	# Retrieve project version identifier	
+	$f_version = gpc_get_string( 'version', '' );
 	if ( is_blank( $f_version ) ) {
 		$f_version_id = gpc_get_int( 'version_id', -1 );
 
@@ -208,9 +218,13 @@
 			trigger_error( ERROR_VERSION_NOT_FOUND, ERROR );
 		}
 	}
-
+	log_workload_event('Main - project identifier: '.$t_project_id);
+	log_workload_event('Main - project version: '.$f_version_id);
+	
+	# Retrieve issue handler identifier
 	$f_handler_id = gpc_get_int( 'handler_id', -1 );
 	
+	# Check user access to project	
 	if ( ALL_PROJECTS == $t_project_id ) {
 		$t_topprojects = $t_project_ids = user_get_accessible_projects( $t_user_id );
 		foreach ( $t_topprojects as $t_project ) {
@@ -231,9 +245,11 @@
 		$t_project_ids = user_get_all_accessible_subprojects( $t_user_id, $t_project_id );
 		array_unshift( $t_project_ids, $t_project_id );
 	}
-
+	log_workload_event('Main - project identifiers count: '.count($t_project_ids));
+	
 	html_page_top( lang_get( 'plugin_workload_menu' ) );
 
+	# $f_project_id references to current project filter
 	print_workload_menu('main.php', $f_project_id, $f_version_id, $f_handler_id);
 
 	$t_project_index = 0;
