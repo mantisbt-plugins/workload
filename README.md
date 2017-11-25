@@ -2,7 +2,7 @@
 [Manstis BT](http://www.mantisbt.org/) Plugin based on selected custom fields to compute project workload.
 
 ## Installation
-TBD
+Please refer to the plugin [user guide](https://github.com/mantisbt-plugins/traceability/wiki/User-Guide).
 
 ## Requirements
 1. Plugin for following Mantis BT versions :
