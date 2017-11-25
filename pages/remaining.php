@@ -15,7 +15,8 @@
 		$g_time_est = PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT;
 		$g_time_done = PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT;
 		
-		echo '<table class="width100" cellspacing="1">';
+		echo '<div class="form-container">';
+		echo '<table>';
 		echo '<tbody>';
 		echo '<tr>';
 		echo '<td class="category" width="15%">', lang_get('email_project'), '</td>';
@@ -66,11 +67,11 @@
 		 		
 		if($t_time_est_id > 0 && $t_time_done_id > 0)
 		{
-			$t_custom_field_string_table = db_get_table('mantis_custom_field_string_table');
+			$t_custom_field_string_table = db_get_table('custom_field_string');
 			$query = "SELECT $t_custom_field_string_table.field_id, $t_custom_field_string_table.value 
 			FROM $t_custom_field_string_table 
 			WHERE $t_custom_field_string_table.bug_id=$p_issue_id";
-			$t_result = db_query_bound( $query );		
+			$t_result = db_query( $query );		
 			while ( $t_row = db_fetch_array( $t_result ) ) {
 				if($t_row['field_id'] == $t_time_est_id) {
 					$t_time_est=$t_row['value'];
@@ -107,7 +108,7 @@
 		}
 		
 		#Display bug properties
-		echo '<tr ', helper_alternate_class(), '>';
+		echo '<tr>';
 		echo '<td>', '<a href="'.plugin_page('main', false).'&project_id='.$t_project_id.'">'.string_display_line($t_project_name).'</a>', '</td>';
 		echo '<td>', '<a href="'.plugin_page('main', false).'&version_id='.$t_version_id.'">'.string_display_line($t_version_name).'</a>', '</td>';
 		echo '<td>', string_get_bug_view_link( $p_issue_id ), '</td>';
@@ -145,7 +146,7 @@
 		
 		$t_workload = PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT;
 		
-		echo '<tr ', helper_alternate_class(), '>';
+		echo '<tr>';
 		echo '<td class="category" colspan="6">'.lang_get('plugin_workload_remaining_overall').'</td>';
 		if($g_time_est == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
 			log_workload_event('Main - overall remaining workload not available');			
@@ -172,6 +173,7 @@
 		
 		echo '</tbody>';
 		echo '</table>';	
+		echo '</div>';		
 	} /* End of print_issue_end() */	
 
 	# Retrieve current user identifier
@@ -268,8 +270,8 @@
 		$t_user_access_level_is_reporter = ( REPORTER == access_get_project_level( $t_project_id ) );
 
 		$t_resolved = config_get( 'bug_resolved_status_threshold' );
-		$t_bug_table	= db_get_table( 'mantis_bug_table' );
-		$t_relation_table = db_get_table( 'mantis_bug_relationship_table' );
+		$t_bug_table	= db_get_table( 'bug' );
+		$t_relation_table = db_get_table( 'bug_relationship' );
 
 		$t_version_rows = array_reverse( version_get_all_rows( $t_project_id ) );
 
@@ -297,7 +299,7 @@
 
 			$t_first_entry = true;
 
-			$t_result = db_query_bound( $query, Array( $t_project_id, $t_version ) );
+			$t_result = db_query( $query, Array( $t_project_id, $t_version ) );
 
 			$t_issue_ids = array();
 			$t_issue_parents = array();
@@ -343,8 +345,6 @@
 			}
 
 			user_cache_array_rows( array_unique( $t_issue_handlers ) );
-
-			$t_progress = $t_issues_planned > 0 ? ( (integer) ( $t_issues_resolved * 100 / $t_issues_planned ) ) : 0;
 
 			$t_issue_set_ids = array();
 			$t_issue_set_levels = array();

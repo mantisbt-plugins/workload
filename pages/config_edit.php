@@ -13,18 +13,18 @@
 	log_workload_event('Configuration - new workload issue threshold: '.$f_workload_status_threshold);
 
 	$f_progress_status_level = gpc_get_int( 'progress_status_level', PLUGIN_WORKLOAD_ISSUE_STATUS_LEVEL_DEFAULT);
-	log_workload_event('Configuration - new progress issue level: '.$progress_status_level);
+	log_workload_event('Configuration - new progress issue level: '.$f_progress_status_level);
 	
 	$f_progress_status_threshold = gpc_get_int( 'progress_status_threshold', PLUGIN_TRACEABILITY_ISSUE_STATUS_THRSHD_DEFAULT);
-	log_workload_event('Configuration - new progress issue threshold: '.$progress_status_threshold);
+	log_workload_event('Configuration - new progress issue threshold: '.$f_progress_status_threshold);
 	
-	$f_workload_est_var = gpc_get_int( 'workload_est_var_idx', PLUGIN_PM_WORKLOAD_VAR_IDX_NONE );
+	$f_workload_est_var = gpc_get_int( 'workload_est_var_idx', PLUGIN_WORKLOAD_VAR_IDX_NONE );
 	log_workload_event('Configuration - new estimated workload custom field: '.$f_workload_est_var);
 
-	$f_workload_done_var = gpc_get_int( 'workload_done_var_idx', PLUGIN_PM_WORKLOAD_VAR_IDX_NONE );
+	$f_workload_done_var = gpc_get_int( 'workload_done_var_idx', PLUGIN_WORKLOAD_VAR_IDX_NONE );
 	log_workload_event('Configuration - new done workload custom field: '.$f_workload_done_var);
 
-	$f_progress_var = gpc_get_int( 'progress_var_idx', PLUGIN_PM_WORKLOAD_VAR_IDX_NONE );
+	$f_progress_var = gpc_get_int( 'progress_var_idx', PLUGIN_WORKLOAD_VAR_IDX_NONE );
 	log_workload_event('Configuration - new progress custom field: '.$f_progress_var);	
 	
 	$f_manage_threshold = gpc_get_int( 'manage_threshold', ADMINISTRATOR );

@@ -2,7 +2,7 @@
 	require_once('api.php');
 	
 	require_once('core.php');
-	require_once('bug_api.php');
+	require_api('bug_api.php');
 
  	/**
 	 * Print issue begin
@@ -11,7 +11,8 @@
 	 * @author rcasteran
 	 */
 	function print_issue_begin() {
-		echo '<table class="width100" cellspacing="1">';
+		echo '<div class="form-container">';
+		echo '<table>';
 		echo '<tbody>';
 		echo '<tr>';
 		echo '<td class="category" width="15%">', lang_get('id'), '</td>';
@@ -31,6 +32,7 @@
 	function print_issue_end() {
 		echo '</tbody>';
 		echo '</table>';
+		echo '</div>';		
 	} /* End of print_issue_end() */	
 	
  	/**
@@ -77,11 +79,11 @@
 			($t_workload_done > PLUGIN_WORKLOAD_VAR_IDX_NONE)) ||
 			($t_progress > PLUGIN_WORKLOAD_VAR_IDX_NONE))
 		{
-			$t_custom_field_string_table = db_get_table('mantis_custom_field_string_table');
+			$t_custom_field_string_table = db_get_table('custom_field_string');
 			$query = "SELECT $t_custom_field_string_table.field_id, $t_custom_field_string_table.value 
 			FROM $t_custom_field_string_table 
 			WHERE $t_custom_field_string_table.bug_id=$p_issue_id";
-			$t_result = db_query_bound( $query );		
+			$t_result = db_query( $query );		
 			while ( $t_row = db_fetch_array( $t_result ) ) {
 				if(strlen($t_row['value']) > 0) {
 					if($t_row['field_id'] == $t_workload_est) {					
@@ -124,7 +126,7 @@
 				
 				#Display bug properties
 				if($t_remaining < 100) {
-					$g_issue_workload = $g_issue_workload.'<tr '.helper_alternate_class().'>';
+					$g_issue_workload = $g_issue_workload.'<tr>';
 					$g_issue_workload = $g_issue_workload.
 						'<td>'.string_get_bug_view_link( $p_issue_id ).'</td>'.
 						'<td>'.string_display_line_links( $t_bug->summary ).'</td>';
@@ -139,7 +141,7 @@
 					$g_issue_workload = $g_issue_workload.'</tr>';
 					$g_nb_issue_workload++;
 				} else {
-					$g_issue_overload = $g_issue_overload.'<tr '.helper_alternate_class().'>';
+					$g_issue_overload = $g_issue_overload.'<tr>';
 					$g_issue_overload = $g_issue_overload.
 						'<td>'.string_get_bug_view_link( $p_issue_id ).'</td>'.
 						'<td>'.string_display_line_links( $t_bug->summary ).'</td>';
@@ -169,7 +171,7 @@
 				}
 				
 				#Display bug properties
-				$g_issue_progress = $g_issue_progress.'<tr '.helper_alternate_class().'>';
+				$g_issue_progress = $g_issue_progress.'<tr>';
 				$g_issue_progress = $g_issue_progress.
 					'<td>'.string_get_bug_view_link( $p_issue_id ).'</td>'.
 					'<td>'.string_display_line_links( $t_bug->summary ).'</td>';
@@ -323,8 +325,8 @@
 		$t_user_access_level_is_reporter = ( REPORTER == access_get_project_level( $t_project_id ) );
 
 		$t_resolved = config_get( 'bug_resolved_status_threshold' );
-		$t_bug_table	= db_get_table( 'mantis_bug_table' );
-		$t_relation_table = db_get_table( 'mantis_bug_relationship_table' );
+		$t_bug_table	= db_get_table( 'bug' );
+		$t_relation_table = db_get_table( 'bug_relationship' );
 
 		$t_version_rows = array_reverse( version_get_all_rows( $t_project_id ) );
 		log_traceability_event('Main - project versions count: '.count($t_version_rows));
@@ -361,7 +363,7 @@
 
 			$t_first_entry = true;
 
-			$t_result = db_query_bound( $query, Array( $t_project_id, $t_version ) );
+			$t_result = db_query( $query, Array( $t_project_id, $t_version ) );
 
 			$t_issue_ids = array();
 			$t_issue_parents = array();
