@@ -5,7 +5,8 @@
 TBD
 
 ## Requirements
-1. Plugin for 1.2.10 and above
+1. Plugin for following Mantis BT versions :
+	1. 1.2.10 and above ([master](https://github.com/mantisbt-plugins/workload/tree/master)) : major version number is equal to 1
 2. Allow user to report work progression percentage :
 	1. According to bug status
 	2. Directly in bug summary or in bug update form (no extra view)
