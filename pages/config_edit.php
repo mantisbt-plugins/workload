@@ -30,12 +30,11 @@
 	$f_manage_threshold = gpc_get_int( 'manage_threshold', ADMINISTRATOR );
 	log_workload_event('Configuration - new manage threshold: '.$f_manage_threshold);
 
-	html_page_top( null, plugin_page( 'config', true ) );
-
+	layout_page_header( null, plugin_page( 'config', true ) );
+	layout_page_begin();
+	
 	print_manage_menu();
 	
-	echo '<br /><div class="center">';
-
 	if($f_workload_est_var != PLUGIN_WORKLOAD_VAR_IDX_NONE && 
 		$f_workload_done_var != PLUGIN_WORKLOAD_VAR_IDX_NONE &&
 		$f_progress_var != PLUGIN_WORKLOAD_VAR_IDX_NONE) {	
@@ -74,7 +73,8 @@
 				plugin_config_set( 'manage_threshold', $f_manage_threshold );
 			}
 
-			echo lang_get( 'operation_successful' ) . '<br />';
+			html_operation_successful( plugin_page( 'config', true ) );
+			
 		} else if ($f_workload_est_var == $f_workload_done_var){
 			log_workload_event('Configuration - error: same customer field for both estimated and done workloads');
 			
@@ -98,7 +98,5 @@
 		trigger_error( ERROR_CONFIG_OPT_INVALID, WARNING );	
 	}
 	
-	print_bracket_link( plugin_page( 'config', true ), lang_get( 'proceed' ) );
-	echo '</div>';
-	html_page_bottom();			
+	layout_page_end();			
 ?>
