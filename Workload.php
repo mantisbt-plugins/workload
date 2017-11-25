@@ -46,9 +46,14 @@
 			log_workload_event('Configuration successfull');
 			
 			return array(
-				'workload_est_var_idx' 	=> PLUGIN_WORKLOAD_VAR_IDX_NONE,
-				'workload_done_var_idx'	=> PLUGIN_WORKLOAD_VAR_IDX_NONE,
-				'manage_threshold' 		=> ADMINISTRATOR
+				'workload_status_level'		=> PLUGIN_WORKLOAD_ISSUE_STATUS_LEVEL_DEFAULT,			
+				'workload_status_threshold'	=> PLUGIN_WORKLOAD_ISSUE_STATUS_THRSHD_DEFAULT,
+				'progress_status_level'		=> PLUGIN_WORKLOAD_ISSUE_STATUS_LEVEL_DEFAULT,			
+				'progress_status_threshold'	=> PLUGIN_WORKLOAD_ISSUE_STATUS_THRSHD_DEFAULT,		
+				'workload_est_var_idx' 		=> PLUGIN_WORKLOAD_VAR_IDX_NONE,
+				'workload_done_var_idx'		=> PLUGIN_WORKLOAD_VAR_IDX_NONE,
+				'progress_var_idx'			=> PLUGIN_WORKLOAD_VAR_IDX_NONE,
+				'manage_threshold' 			=> ADMINISTRATOR
 				);
 		} #End of config()
 

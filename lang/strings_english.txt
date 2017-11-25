@@ -6,16 +6,34 @@
 	$s_plugin_workload_config = 'Configuration';
 	
 	#Plugin configuration
-	$s_plugin_workload_management_threshold = 'Management threshold';
+	$s_plugin_workload_config_ana = "Analysis";
+	$s_plugin_workload_status_level = 'Percentage of higher remaining work to warn about';
+	$s_plugin_workload_status_threshold = 'Issue status threshold to warn about higher remaining work';
+	$s_plugin_workload_progress_status_level = 'Percentage of lower progress to warn about';		
+	$s_plugin_workload_progress_status_threshold = 'Issue status threshold to warn about lower progress';		
+	$s_plugin_workload_config_workload = 'Workload';
 	$s_plugin_workload_est_var = 'Custom field for Estimated Workload';
 	$s_plugin_workload_done_var = 'Custom field for Done Workload';
+	$s_plugin_workload_config_progress = 'Progress';
+	$s_plugin_workload_progress_var = 'Custom field for progress';
+	$s_plugin_workload_config_other = 'Other';
+	$s_plugin_workload_management_threshold = 'Management threshold';
 	$s_plugin_workload_custom_field_found_none = 'No numeric custom field found';
 	
 	#Plugin menu
-	$s_plugin_workload_menu_main = 'Current';
+	$s_plugin_workload_menu_main = 'Analysis';
+	$s_plugin_workload_menu_remaining = 'Remaining';
 	$s_plugin_workload_menu_changelog = 'Change Log';
 	
 	#Plugin main page labels
+	$s_plugin_workload_warning = 'Warning';
+	$s_plugin_workload_warning_none = 'No warning';
+	$s_plugin_workload_warning_overload = 'issues with overload';
+	$s_plugin_workload_warning_workload = 'issues with higher remaining workload';
+	$s_plugin_workload_warning_progress = 'issues with lower progress';
+	$s_plugin_workload_warning_roadmap = 'No project roadmap available';
+	
+	#Plugin remaining page labels
 	$s_plugin_workload_remaining_overall = 'Overall Remaining Workload';
 	$s_plugin_workload_remaining = 'Remaining Workload';
 	$s_plugin_workload_none = 'None';

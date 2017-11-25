@@ -14,6 +14,40 @@
 	echo form_security_field( 'plugin_workload_config_edit' );
 	echo '<table class="width100" align="center" cellspacing="1">';
 	echo '<tr><td class="form-title"colspan="2">'.lang_get('plugin_workload_title').': '.lang_get('plugin_workload_config').'</td></tr>';
+
+	echo '<tr>';
+	echo '<td>'.lang_get( 'plugin_workload_config_ana' ).'</td>';
+	echo '</tr>';
+	# workload_status_level config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_status_level' ).'</td>';
+	echo '<td><input type="text" name="workload_status_level" value="'.plugin_config_get( 'workload_status_level' ).'"/>';
+	echo '</td>';
+	echo '</tr>';
+	# workload_status_threshold config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_status_threshold' ).'</td>';
+	echo '<td><select name="workload_status_threshold">';
+	echo print_enum_string_option_list( 'status', plugin_config_get('workload_status_threshold'));
+	echo '</select></td>';
+	echo '</tr>';
+	# progress_status_level config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_progress_status_level' ).'</td>';
+	echo '<td><input type="text" name="progress_status_level" value="'.plugin_config_get( 'progress_status_level' ).'"/>';
+	echo '</td>';
+	echo '</tr>';
+	# progress_status_threshold config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_progress_status_threshold' ).'</td>';
+	echo '<td><select name="progress_status_threshold">';
+	echo print_enum_string_option_list( 'status', plugin_config_get('progress_status_threshold'));
+	echo '</select></td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td>'.lang_get( 'plugin_workload_config_workload' ).'</td>';
+	echo '</tr>';	
 	# workload_est_var config
 	echo '<tr '.helper_alternate_class().'>';
 	echo '<td class="category">'.lang_get( 'plugin_workload_est_var' ).'</td>';
@@ -50,7 +84,32 @@
 	else {
 		echo '<td>',lang_get('plugin_workload_custom_field_found_none'),'</td>';
 	}
+	echo '</tr>';
+	
+	echo '<tr>';
+	echo '<td>'.lang_get( 'plugin_workload_config_progress' ).'</td>';
 	echo '</tr>';	
+	# progress_var_idx config
+	echo '<tr '.helper_alternate_class().'>';
+	echo '<td class="category">'.lang_get( 'plugin_workload_progress_var' ).'</td>';
+	if(count($t_custom_fields) > 0) {	
+		echo '<td><select name="progress_var_idx">';	
+		foreach( $t_custom_fields as $t_field_id ) {
+			$t_desc = custom_field_get_definition( $t_field_id );
+			echo '<option value="'.$t_field_id.'"';
+			check_selected( plugin_config_get('progress_var_idx'), $t_field_id ); 
+			echo '>'.string_display($t_desc['name']).'</option>';
+		}		
+		echo '</select></td>';
+	}
+	else {
+		echo '<td>',lang_get('plugin_workload_custom_field_found_none'),'</td>';
+	}
+	echo '</tr>';
+	
+	echo '<tr>';
+	echo '<td>'.lang_get( 'plugin_workload_config_other' ).'</td>';
+	echo '</tr>';		
 	# manage_threshold config
 	echo '<tr '.helper_alternate_class().'>';
 	echo '<td class="category">'.lang_get( 'plugin_workload_management_threshold' ).'</td>';
