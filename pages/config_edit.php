@@ -9,13 +9,13 @@
 	$f_workload_status_level = gpc_get_int( 'workload_status_level', PLUGIN_WORKLOAD_ISSUE_STATUS_LEVEL_DEFAULT);
 	log_workload_event('Configuration - new workload issue level: '.$f_workload_status_level);
 
-	$f_workload_status_threshold = gpc_get_int( 'workload_status_threshold', PLUGIN_TRACEABILITY_ISSUE_STATUS_THRSHD_DEFAULT);
+	$f_workload_status_threshold = gpc_get_int( 'workload_status_threshold', PLUGIN_WORKLOAD_ISSUE_STATUS_THRSHD_DEFAULT);
 	log_workload_event('Configuration - new workload issue threshold: '.$f_workload_status_threshold);
 
 	$f_progress_status_level = gpc_get_int( 'progress_status_level', PLUGIN_WORKLOAD_ISSUE_STATUS_LEVEL_DEFAULT);
 	log_workload_event('Configuration - new progress issue level: '.$f_progress_status_level);
 	
-	$f_progress_status_threshold = gpc_get_int( 'progress_status_threshold', PLUGIN_TRACEABILITY_ISSUE_STATUS_THRSHD_DEFAULT);
+	$f_progress_status_threshold = gpc_get_int( 'progress_status_threshold', PLUGIN_WORKLOAD_ISSUE_STATUS_THRSHD_DEFAULT);
 	log_workload_event('Configuration - new progress issue threshold: '.$f_progress_status_threshold);
 	
 	$f_workload_est_var = gpc_get_int( 'workload_est_var_idx', PLUGIN_WORKLOAD_VAR_IDX_NONE );
@@ -92,13 +92,14 @@
 			trigger_error( ERROR_CONFIG_OPT_INVALID, WARNING );				
 		}
 	} else {
-		log_traceability_event('Configuration - error: customer fields for estimated, done workloads and progress are not defined');
+		log_workload_event('Configuration - error: customer fields for estimated, done workloads and progress are not defined');
 			
-		error_parameters( lang_get( 'plugin_traceability_req_id_var' ), $f_req_id_var );
+		error_parameters( lang_get( 'plugin_workload_est_var' ), $f_workload_est_var );
 		trigger_error( ERROR_CONFIG_OPT_INVALID, WARNING );	
 	}
 	
 	print_bracket_link( plugin_page( 'config', true ), lang_get( 'proceed' ) );
 	echo '</div>';
-	html_page_bottom();			
+	html_page_bottom();
+	
 ?>
