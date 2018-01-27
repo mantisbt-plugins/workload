@@ -47,16 +47,16 @@
 		$t_time_est_id = 0;
 		$t_time_done_id = 0;
 		
-		$t_types = array(CUSTOM_FIELD_TYPE_NUMERIC);		
+		$t_types = array(CUSTOM_FIELD_TYPE_NUMERIC);
 		$t_custom_fields = get_custom_fied_ids($t_types);
-		if(count($t_custom_fields) > 0) {		
+		if(count($t_custom_fields) > 0) {
 			foreach ($t_custom_fields as $t_field_id) {
 				if($t_field_id == plugin_config_get('workload_est_var_idx')) {
 					$t_time_est_id = $t_field_id;
 				} else if($t_field_id == plugin_config_get('workload_done_var_idx')) {
 					$t_time_done_id = $t_field_id;
 				}
-				/* Else do nothing */				
+				/* Else do nothing */
 			}	
 		}
 		/* Else do nothing */
@@ -71,7 +71,7 @@
 			$query = "SELECT $t_custom_field_string_table.field_id, $t_custom_field_string_table.value 
 			FROM $t_custom_field_string_table 
 			WHERE $t_custom_field_string_table.bug_id=$p_issue_id";
-			$t_result = db_query( $query );		
+			$t_result = db_query( $query );	
 			while ( $t_row = db_fetch_array( $t_result ) ) {
 				if($t_row['field_id'] == $t_time_est_id) {
 					$t_time_est=$t_row['value'];
@@ -85,11 +85,19 @@
 				$t_delta = $t_time_est - $t_time_done;
 				
 				if($g_time_done == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
-					$g_time_done = $t_time_done;
-					$g_time_est = $t_time_est;						
+					if($t_delta > 0) {
+						$g_time_done = $t_time_done;
+						$g_time_est = $t_time_est;
+					} else {
+						$g_time_done = 0;
+						$g_time_est = 0;
+					}
 				} else {
-					$g_time_done += $t_time_done;
-					$g_time_est += $t_time_est;												
+					if($t_delta > 0) {
+						$g_time_done += $t_time_done;
+						$g_time_est += $t_time_est;
+					}
+					/* Else do nothing */
 				}
 			} else {
 				$t_delta = lang_get('plugin_workload_not_available');
@@ -122,10 +130,10 @@
 			
 		echo '<td bgcolor="', get_status_color( $t_bug->status ), '">', $t_status[$t_bug->status], '</td>';
 		if(is_numeric($t_delta)) {
-			if($t_delta > 0) {		
+			if($t_delta > 0) {
 				echo '<td> +', $t_delta, ' (', round((1 - $t_time_done / $t_time_est) * 100), '%)</td>';
-			} else if($t_time_est > 0) {				
-				echo '<td>', $t_delta, ' (', round(($t_time_done / $t_time_est - 1) * 100), '%)</td>';				
+			} else if($t_time_est > 0) {
+				echo '<td>', $t_delta, ' (', round(($t_time_done / $t_time_est - 1) * 100), '%)</td>';
 			} else {
 				echo '<td>', $t_delta, '</td>';
 			}
@@ -149,13 +157,13 @@
 		echo '<tr>';
 		echo '<td class="category" colspan="6">'.lang_get('plugin_workload_remaining_overall').'</td>';
 		if($g_time_est == PLUGIN_WORKLOAD_PRINT_ISSUE_WORKLOAD_DEFAULT) {
-			log_workload_event('Main - overall remaining workload not available');			
+			log_workload_event('Main - overall remaining workload not available');
 
 			echo '<td>'.lang_get('plugin_workload_not_available').'</td>';
 		} else if(is_numeric($g_time_est) && ($g_time_est > 0)) {
 			$t_workload = $g_time_est - $g_time_done;
 			
-			if($t_workload > 0) {		
+			if($t_workload > 0) {
 				echo '<td> +', $t_workload, ' (', round((1 - $g_time_done / $g_time_est) * 100), '%)</td>';
 			} else if($g_time_est > 0) {
 				echo '<td>', $t_workload, ' (', round(($g_time_done / $g_time_est - 1) * 100), '%)</td>';
@@ -166,15 +174,15 @@
 			log_workload_event('Main - overall remaining workload: '.$t_workload);
 			
 		} else {
-			log_workload_event('Main -  no computed overall remaining workload');			
+			log_workload_event('Main -  no computed overall remaining workload');
 			
 			echo '<td>'.lang_get('plugin_workload_none').'</td>';
 		}
 		
 		echo '</tbody>';
-		echo '</table>';	
-		echo '</div>';		
-	} /* End of print_issue_end() */	
+		echo '</table>';
+		echo '</div>';
+	} /* End of print_issue_end() */
 
 	# Retrieve current user identifier
 	$t_user_id = auth_get_current_user_id();

@@ -83,17 +83,17 @@
 			$query = "SELECT $t_custom_field_string_table.field_id, $t_custom_field_string_table.value 
 			FROM $t_custom_field_string_table 
 			WHERE $t_custom_field_string_table.bug_id=$p_issue_id";
-			$t_result = db_query( $query );		
+			$t_result = db_query( $query );
 			while ( $t_row = db_fetch_array( $t_result ) ) {
 				if(strlen($t_row['value']) > 0) {
-					if($t_row['field_id'] == $t_workload_est) {					
+					if($t_row['field_id'] == $t_workload_est) {
 						$t_workload_est_value = $t_row['value'];
 					} else if($t_row['field_id'] == $t_workload_done) {
 						$t_workload_done_value = $t_row['value'];
 					} else if($t_row['field_id'] == $t_progress) {
 						$t_progress_value = $t_row['value'];
 					}
-					/* Else do nothing */					
+					/* Else do nothing */
 				}
 				/* Else do nothing */
 			}
@@ -110,6 +110,8 @@
 			if($t_workload_est_value > 0) { 
 				if ($t_workload_done_value < $t_workload_est_value) {
 					$t_remaining = round((($t_workload_est_value - $t_workload_done_value) / $t_workload_est_value) * 100, 2);
+				} else if ($t_workload_done_value == $t_workload_est_value) {
+					$t_remaining = 0;
 				} else {
 					$t_remaining = 100;
 				}
