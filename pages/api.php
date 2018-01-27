@@ -108,7 +108,7 @@
 			print_bracket_link($t_remaining_page, lang_get('plugin_workload_menu_remaining') );
 			print_bracket_link($t_changelog_page, lang_get('plugin_workload_menu_changelog') );
 			echo '</p></div>';
-		} /* End of print_traceability_menu() */
+		} /* End of print_workload_menu() */
 	}
 	
 	if(!function_exists('get_custom_fied_ids')) {

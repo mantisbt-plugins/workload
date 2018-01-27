@@ -276,8 +276,8 @@
 		}
 		/* Else do nothing */
 	}
-	log_traceability_event('Main - project identifier: '.$f_project_id);
-	log_traceability_event('Main - project version: '.$f_version);
+	log_workload_event('Main - project identifier: '.$f_project_id);
+	log_workload_event('Main - project version: '.$f_version);
 	
 	# Retrieve issue handler identifier
 	$f_handler_id = gpc_get_int( 'handler_id', -1 );
@@ -303,7 +303,7 @@
 		$t_project_ids = user_get_all_accessible_subprojects( $t_user_id, $t_project_id );
 		array_unshift( $t_project_ids, $t_project_id );
 	}
-	log_traceability_event('Main - project identifiers count: '.count($t_project_ids));
+	log_workload_event('Main - project identifiers count: '.count($t_project_ids));
 
 	layout_page_header( lang_get( 'plugin_workload_menu' ) );
 	layout_page_begin();
@@ -318,7 +318,7 @@
 	
 	foreach( $t_project_ids as $t_project_id ) {
 		$t_project_name = project_get_field( $t_project_id, 'name' );
-		log_traceability_event('Main - project name: '.$t_project_name);
+		log_workload_event('Main - project name: '.$t_project_name);
 		
 		$t_can_view_private = access_has_project_level( config_get( 'private_bug_threshold' ), $t_project_id );
 
@@ -330,7 +330,7 @@
 		$t_relation_table = db_get_table( 'bug_relationship' );
 
 		$t_version_rows = array_reverse( version_get_all_rows( $t_project_id ) );
-		log_traceability_event('Main - project versions count: '.count($t_version_rows));
+		log_workload_event('Main - project versions count: '.count($t_version_rows));
 
 		# cache category info, but ignore the results for now
 		category_get_all_rows( $t_project_id );
@@ -543,7 +543,7 @@
 	
 	# At least warn user that no project roadmap is available
 	if($t_nb_project_header_printed == 0) {
-		log_traceability_event('Main - no project roadmap available');
+		log_workload_event('Main - no project roadmap available');
 
 		echo '<div>'.lang_get('plugin_workload_warning_roadmap').'</div>';		
 	}
