@@ -13,7 +13,7 @@
 			$this->description = lang_get( 'plugin_workload_description' );
 			$this->page        = 'config';
 		
-			$this->version  = '3.0.2';
+			$this->version  = '3.0.3';
 			$this->requires = array(
 			'MantisCore' => '2.1.0'
 			);
