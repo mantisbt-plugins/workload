@@ -1,5 +1,5 @@
 <?php
-	define('PLUGIN_WORKLOAD_LOGIN_HISTORY_FILE', 'plugins/workload/log/log_workload');
+	define('PLUGIN_WORKLOAD_LOGIN_HISTORY_FILE', 'plugins/Workload/log/log_workload');
 	define('PLUGIN_WORKLOAD_LOGIN_HISTORY_ENTRY_MAX', 5000);
 	
 	define('PLUGIN_WORKLOAD_VAR_IDX_NONE', '-1');
