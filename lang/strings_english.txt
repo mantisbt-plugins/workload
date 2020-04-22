@@ -6,7 +6,7 @@
 	$s_plugin_workload_config = 'Configuration';
 	
 	#Plugin configuration
-	$s_plugin_workload_config_ana = "Analysis";
+	$s_plugin_workload_config_ana = 'Analysis';
 	$s_plugin_workload_status_level = 'Percentage of higher remaining work to warn about';
 	$s_plugin_workload_status_threshold = 'Issue status threshold to warn about higher remaining work';
 	$s_plugin_workload_progress_status_level = 'Percentage of lower progress to warn about';		
