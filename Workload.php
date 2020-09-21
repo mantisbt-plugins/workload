@@ -13,13 +13,12 @@
 			$this->description = lang_get( 'plugin_workload_description' );
 			$this->page        = 'config';
 		
-			$this->version  = '2.0.2';
+			$this->version  = '2.0.3';
 			$this->requires = array(
 			'MantisCore' => '1.3.0'
 			);
 		
 			$this->author  = 'STRUCT-IT';
-			$this->contact = 'contact@struct-it.fr';
 			$this->url     = 'http://www.struct-it.fr';
 			
 			log_workload_event('Registration successfull');			
