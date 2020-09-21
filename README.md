@@ -32,4 +32,3 @@ In plugin configuration, user must select/configure :
 - Percentage of higher remaining work to warn about
 - Issue status threshold to warn about higher remaining work
 - Percentage of lower progress to warn about
-- Issue status threshold to warn about undefined test
