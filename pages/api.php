@@ -1,5 +1,5 @@
 <?php
-	define('PLUGIN_WORKLOAD_LOGIN_HISTORY_FILE', 'plugins/' . plugin_get_current() . '/log/log_workload');
+	define('PLUGIN_WORKLOAD_LOGIN_HISTORY_FILE', 'plugins/workload/log/log_workload');
 	define('PLUGIN_WORKLOAD_LOGIN_HISTORY_ENTRY_MAX', 5000);
 	
 	define('PLUGIN_WORKLOAD_VAR_IDX_NONE', '-1');
@@ -120,11 +120,11 @@
 		 * @author rcasteran
 		 */
 		function get_custom_fied_ids($p_types) {
-			$t_custom_field_table = db_get_table( 'mantis_custom_field_table' );
+			$t_custom_field_table = db_get_table( 'custom_field' );
 			$query = "SELECT *
 					  FROM $t_custom_field_table
 					  ORDER BY name ASC";
-			$result = db_query_bound( $query );
+			$result = db_query( $query );
 			$t_row_count = db_num_rows( $result );
 			$t_ids = array();
 
